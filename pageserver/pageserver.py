@@ -23,6 +23,8 @@ log = logging.getLogger(__name__)
 import socket    # Basic TCP/IP communication on the internet
 import _thread   # Response computation runs concurrently with main program
 
+import os   # To search for files and parse directory paths
+
 
 def listen(portnum):
     """
@@ -89,10 +91,38 @@ def respond(sock):
     log.info("--- Received request ----")
     log.info("Request was {}\n***\n".format(request))
 
+    options = get_options()
+    DOCROOT = options.DOCROOT
+
     parts = request.split()
+    log.info(parts)                                         #TODO delete, for debugging
+
+    path = DOCROOT + parts[1]   # Join the two toget a full path, so that the file name can be separated from the directory. This should allow for requests looking inside a subdirectory of DOCROOT.
+    target_dir = os.path.dirname(path)
+    target_file = os.path.basename(path)
+    log.info(path)  #TODO
+    log.info(target_dir)    #TODO
+    log.info(target_file)   #TODO
+
     if len(parts) > 1 and parts[0] == "GET":
-        transmit(STATUS_OK, sock)
-        transmit(CAT, sock)
+        if parts[1] == '/sample.html':
+            transmit(STATUS_OK, sock)
+            transmit(CAT, sock)
+
+        elif target_file.startswith('..') or path.endswith('//' + target_file) or target_file.startswith('~'):
+            transmit(STATUS_FORBIDDEN, sock)
+            transmit('ERROR 403 FORBIDDEN', sock)
+
+        elif os.path.isfile(path) and (target_file.endswith('.html') or target_file.endswith('.css')):
+            f = open(path)
+            file_contents = f.read()
+            transmit(STATUS_OK, sock)
+            transmit(file_contents, sock)
+            f.close()
+            
+        else:
+            transmit(STATUS_NOT_FOUND, sock)
+            transmit('ERROR 404 NOT FOUND', sock)
     else:
         log.info("Unhandled request: {}".format(request))
         transmit(STATUS_NOT_IMPLEMENTED, sock)
