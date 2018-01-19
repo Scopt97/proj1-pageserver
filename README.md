@@ -1,73 +1,16 @@
-# README #
+## Author: Kyle Nielsen, kylen@uoregon.edu ##
 
-A "getting started" project for CIS 322, introduction to software
-engineering,  at University of Oregon.
+### What? ###
 
-### What is this repository for? ###
+A simple web server that displays the contents of a specified html or css file is the pages directory. Due to differences in path names, this server is designed to run on Unix based machines and may not work properly on Windows.
 
-The objectives of this mini-project are:
+### Usage ###
 
-  * Experience with GIT workflow with separate configuration:  Fork the project, make and test changes locally, commit;  turn in configuration file with reference to repo. (Project 0 is practice for this part.) 
-  * Extend a tiny web server in Python, to check understanding of basic web architecture
-  * Use automated tests to check progress (plus manual tests for good measure)
+In a terminal: `make run`
 
-### What do I need?  Where will it work? ###
+In a browser `http://ipaddr:port/path/to/file` 
 
-* Designed for Unix, mostly interoperable on Linux (Ubuntu) or MacOS. May also work on Windows, but no promises.  A Linux virtual machine may work, but our experience has not been good; you may want to test on shared server ix-dev.
+By default, port is 5000 and path/to/file is relative to pages/ . These can be changed by copying credentials-skel.ini to pageserver/credentials.ini and editing the appropriate fields (port and DOCROOT), or by editing app.ini.
 
-* You will need Python version 3.4 or higher. 
 
-* Designed to work in "user mode" (unprivileged), therefore using a port 
-  number above 1000 (rather than port 80 that a privileged web server would use)
 
-* Windows 10 note: The new Windows bash on ubuntu looks promising.
-  If you are running Windows 10, please give this a try and let me
-  know if the Ubuntu/bash environment is suitable for CIS 322
-  develpment. 
-
-### Assignment ###
-* Fork this repository to create your own repository on Github.  (Read the 'git' documentation as needed, and create an account on Github if you don't have one. You should've already done finished this as part of Project 0.) 
-* Clone your repository onto the machine you want to work on.
-* Add the following functionality. (a) If URL ends with name.html or name.css (i.e., if path/to/name.html is in document path (from DOCROOT)), send content of name.html or name.css with proper http response. (b) If name.html is not in current directory Respond with 404 (not found). (c) If a page starts with one of the symbols(~ // ..), respond with 403 forbidden error. For example , url= localhost:5000/..name.html or /~name.html would give 403 forbidden error.
-* Make and test your changes.  Use both automated tests (the script in
-the 'tests' directory) and some manual tests.
-* Revise this README.md file:  Erase what is no longer relevant and 
-  add identifying information. If you have concerns about adding your email ID, let the instructors know.
-  
-  ~~~~
-  ## Author: John Doe, jdoe@uoregon.edu ##
-  ~~~~
-  
-* Copy the credentials-skel.ini file to credentials.ini, then edit it
-  to contain correct information including your github repository
-  URL.  credentials.ini should NOT be under version control (exclude
-  it using your .gitignore file)
-* Commit and push ALL your changes to github (except those not under 
-  revision control)
-* Test deployment in other environments.  Deployment 
-  should work "out of the box" with this command sequence: 
-
-  ~~~~
-  git clone <yourGitRepository> <targetDirectory>
-  cd <targetDirectory>
-  make install
-  make run
-  ~~~~
-  *test it with a browser now, while your server is
-  running in a background process*
-
-  ~~~~
-  make kill 
-  ~~~~
-  
-* Alternatively, use the script under "tests" folder to test the expected outcomes in an automated fashion. It is accompanied by README file and comments (inside tests.sh) explaining how to test your code.
-* Check and revise your "credentials/credentials.ini" file.  My
-  grading robots will read this. Be precise. My grading robots
-  are not very good at guessing what you meant to write.
-* Turn in the credentials.ini file in Canvas.  My grading robots will
-  use this file to access your github repository.   
-
-### Who do I talk to? ###
-
-* Maintained by Ram Durairajan, Sudharshan Srinivasan and Guangyi Tao
-* Use our Piazza group for questions. Make them public (anonymous or not as you prefer) unless you have a good reason to make them private, so that everyone benefits from answers and discussion. 
